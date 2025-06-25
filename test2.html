@@ -6,6 +6,12 @@
     <title>Document</title>
 </head>
 <body>
+<input type="text" id="box">
+<script>
+document.getElementById("box").addEventListener("keydown", function (event){
+    console.log("누른 키:", event.key)
+})
+</script>
 <div><a href="index.html">홈으로</a></div>
 </body>
 </html>

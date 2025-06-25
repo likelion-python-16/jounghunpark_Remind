@@ -6,6 +6,16 @@
     <title>Document</title>
 </head>
 <body>
+<form id="loginForm">
+    <input type="text" id="username">
+    <button type="submit">제출</button>
+</form>
+<script>
+document.getElementById("loginForm").addEventListener("submit", function (e) {
+    const name = document.getElementById("username").value;
+    alert("이름:" + name)
+});
+</script>
 <div><a href="index.html">홈으로</a></div>
 </body>
 </html>

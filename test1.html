@@ -6,6 +6,14 @@
     <title>Document</title>
 </head>
 <body>
+<input type="text" id="userInput">
+<p id="displayText"></p>
+<br>
 <div><a href="index.html">홈으로</a></div>
+<script>
+document.getElementById("userInput").addEventListener("input",function() {
+document.getElementById("displayText").textContent = this.value;
+});
+</script>
 </body>
 </html>
