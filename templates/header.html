@@ -1,0 +1,28 @@
+{% load static %}
+<div>
+    <h1> Todo List</h1>
+    <div>
+      <a href="{% url 'todo:todo_List' %}">목록</a>  
+      {% if user.is_authenticated%}
+        <button id="Logout_Btn">로그아웃</button> 
+      {%else%}  
+        <a href="{% url 'rest_framework:login' %}?next={% url 'todo:todo_List'%}">로그인</a>
+      {%endif%}
+    </div>
+    <script>
+  //클릭 이벤트 발생
+  document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("Logout_Btn").addEventListener("click", () => {  axiosInstance
+  .get("/todo/api/custom-logout/")
+  .then(() => {
+    window.location.href="{% url 'todo:todo_List' %}"
+  })
+  .catch( err => {
+    console.ereror("로그 아웃 실패")
+    alert("로그아웃 오류가 발생했습니다.")
+  })
+  })
+});
+
+</script>
+</div>

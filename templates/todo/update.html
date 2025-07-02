@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <h2>Update a New Todo</h2>
+
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name">
+    </div>
+    <div>
+        <label for="description">Description:</label>
+        <textarea name="description" id="description"></textarea>
+    </div>
+    <div>
+        <label for="complete">Complete:</label>
+        <input type="checkbox" name="complete" id="complete">
+    </div>
+    <!-- <div>
+        <label for="completed_at">Complete:</label>
+        <input type="datetime-local" name="completed_at" id="completed_at">
+    </div> -->
+    <div>
+        <label for="exp">Experience Points:</label>
+        <input type="number" name="exp" id="exp" min="0">
+    </div>
+    <button type="submit" id="todoUpdate">Update</button>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", init);
+function init(){
+    const pk = getTodoId();
+    loadTodoIntoForm(pk);
+    bindUpdateBtn(pk)
+}
+
+function getTodoId(){
+    return window.location.pathname.split('/').filter(Boolean).pop(); 
+    // /todo/update/5/ -> ["","todo","/" ,update","/", "5,""] -> ["todo",update", "5"] -> "5"
+}
+
+// --- 4. 기존 todo 데이터를 로드 & 폼 채우기 ---
+function loadTodoIntoForm(pk){
+    //데이터 호출
+    axiosInstance
+    .get(`/todo/viewsets/view/${pk}/`) // 엔드포인트: url주소 호출
+    .then(res => {
+        populatForm(res.data);
+        console.log("res??", res); //전체 응답 데이터
+        console.log("data??", res.data); // 반아온 데이터를 form에 채움
+    })
+    .catch(err => console.error('로딩실패', err));
+}
+
+function populatForm(data){
+    document.getElementById('name').value = data.name,
+    document.getElementById('description').value = data.description,
+    document.getElementById('complete').checked = data.complete,
+    document.getElementById('exp').value = data.exp
+}
+
+/*
+name: '공부하기',
+
+*/
+
+// ---j 6. bindUpdateBtn & click ---
+function bindUpdateBtn(pk){
+    const btn = document.getElementById('todoUpdate');
+    if(!btn) return;
+    btn.addEventListener('click', () => handleUpdate(pk));
+
+}
+
+function handleUpdate(pk){
+    const payload = {
+        name:document.getElementById('name').value,
+        description:document.getElementById('description').value,
+        complete:document.getElementById('complete').checked,
+        exp:Number(document.getElementById('exp').value),
+    };
+
+    //데이터 호출
+    axiosInstance
+    .patch(`/todo/viewsets/view/${pk}/`, payload) // 엔드포인트: url주소 호출
+    .then(res => redirectToDetail(pk))
+    .catch(err => {
+        console.error('로딩실패', err)
+        alert('Todo 수정에 실패했습니다.')
+    });
+}
+
+// --- 8.
+function redirectToDetail(pk){
+    window.location.href = `/todo/detail/${pk}`
+}
+
+
+</script>
+
+{% endblock %}
+  

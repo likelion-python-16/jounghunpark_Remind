@@ -1,0 +1,27 @@
+<h2>{{ todo.name }}</h2>
+<p>{{ todo.description }}</p>
+
+<hr>
+
+<p> 좋아요 수 : {{ like_count }}</p>
+
+<hr>
+
+{% if like_obj and like_obj.is_like %}
+  <p>당신은 이미 좋아요를 눌렀습니다.</p>
+{% elif like_obj and not like_obj.is_like %}
+  <p>취소됬습니다.</p>
+{% else %}
+  <p>누르시지 않았습니다.</p>
+{% endif %}
+
+<hr>
+
+<p> 북마크 상태: {% if bookmark_obj %} 되어 있슴 {% else %} 안됨 {% endif %}</p>
+
+<hr>
+
+<h3>댓글목록</h3>
+{% for comment in comments %}
+  <p><strong>{{ comment.user.username }}</strong>{{ comment.content }}</p>
+{% endfor %}
